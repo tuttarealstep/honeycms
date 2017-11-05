@@ -14,5 +14,7 @@ return [
         "cost" => "10",
         "cipher" => "aes-128-ecb",
     ],
-    "survivalMode" => false
+    "survivalMode" => false,
+    //"timezone" => "Europe/Rome",
+    //"memoryLimit" => "64M",
 ];
