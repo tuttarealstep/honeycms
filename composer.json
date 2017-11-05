@@ -1,0 +1,19 @@
+{
+    "name": "tuttarealstep/honeycms",
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "Stefano Valenzano",
+            "email": "valenzano.stefano99@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "tuttarealstep/honey": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "HoneyCMS\\": "src/"
+        }
+    }
+}
