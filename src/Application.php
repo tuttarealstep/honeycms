@@ -18,7 +18,6 @@ use HoneyCMS\Classes\ConfigurationsManager;
 use HoneyCMS\Classes\Database;
 use HoneyCMS\Classes\Settings;
 use HoneyCMS\Classes\Utils;
-use Monolog\Handler\Curl\Util;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger as MonologLogger;
 
@@ -151,7 +150,7 @@ final class Application implements ApplicationStandard
     private function initLogger()
     {
         $logger = new MonologLogger("Application");
-        $logger->pushHandler(new StreamHandler(__DIR__ . "/Storage/application.log"));
+        $logger->pushHandler(new StreamHandler(__DIR__ . "/Storage/Logs/application.log"));
         self::$logger = new Logger($logger);
     }
 
@@ -217,7 +216,7 @@ final class Application implements ApplicationStandard
 
     private function initCache()
     {
-        self::$cacheManager = new SimpleCache(__DIR__ . "/Storage");
+        self::$cacheManager = new SimpleCache(__DIR__ . "/Storage/Cache");
     }
 
     private function initCryptography()
