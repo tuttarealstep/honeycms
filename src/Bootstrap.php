@@ -8,6 +8,9 @@ use HoneyCMS\Application;
 
 require realpath(__DIR__) . '/../vendor/autoload.php';
 
+define('ROOT_PATH', __DIR__);
+define('THEMES_PATH', ROOT_PATH . '/Storage/Themes');
+
 $App = new Application();
 $App->initialize();
 $App->run();

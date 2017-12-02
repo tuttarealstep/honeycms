@@ -17,6 +17,7 @@ use Honey\Standards\Application as ApplicationStandard;
 use HoneyCMS\Classes\ConfigurationsManager;
 use HoneyCMS\Classes\Database;
 use HoneyCMS\Classes\Settings;
+use HoneyCMS\Classes\ThemesManager;
 use HoneyCMS\Classes\Utils;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger as MonologLogger;
@@ -62,6 +63,11 @@ final class Application implements ApplicationStandard
      * @var Settings
      */
     private static $settings;
+
+    /**
+     * @var ThemesManager
+     */
+    private static $themesManager;
 
     /**
      * @return ConfigurationsManager
@@ -120,6 +126,14 @@ final class Application implements ApplicationStandard
     }
 
     /**
+     * @return ThemesManager
+     */
+    public static function getThemesManager(): ThemesManager
+    {
+        return self::$themesManager;
+    }
+
+    /**
      * @return string
      */
     public function version()
@@ -140,6 +154,7 @@ final class Application implements ApplicationStandard
         $this->initSettings();
         $this->initDefines();
         $this->initRouter();
+        $this->initThemesManager();
     }
 
     private function initConfigurationsManager()
@@ -247,6 +262,9 @@ final class Application implements ApplicationStandard
 
         if(self::$configurationsManager->host == null)
             self::$configurationsManager->host = self::$settings->getSetting('siteUrl', Utils::resolveUrl());
+
+        if(self::$configurationsManager->siteTheme == null)
+            self::$configurationsManager->siteTheme = self::$settings->getSetting('siteTheme', "default");
     }
 
     private function initRouter()
@@ -255,9 +273,15 @@ final class Application implements ApplicationStandard
         //todo add routes
     }
 
+    private function initThemesManager()
+    {
+        self::$themesManager = new ThemesManager();
+        self::$themesManager->initThemeFunctions();
+    }
+
     public function run()
     {
-        //$this->sendResponse();
+        $this->sendResponse();
     }
 
     private function sendResponse()
@@ -270,7 +294,12 @@ final class Application implements ApplicationStandard
         }
 
         $uri = rawurldecode($uri);
-        self::$router->get("/", "asdasd");
+
+        if(count(self::$router->getData()[0]) == 0)
+        {
+            throw new \Exception("No default route set!");
+        }
+
         $routeInfo = self::$router->dispatch($httpMethod, $uri);
 
         switch ($routeInfo[0]) {
@@ -287,8 +316,9 @@ final class Application implements ApplicationStandard
                 $handler = $routeInfo[1];
                 $vars = $routeInfo[2];
 
+                echo self::$themesManager->loadPage($handler, $vars);
                 //todo load page
-                print_r($routeInfo);
+                //print_r($routeInfo);
                 break;
         }
     }

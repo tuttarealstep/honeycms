@@ -1,0 +1,31 @@
+doctype html
+html
+ head
+  title.Test
+  link(rel="stylesheet" href="test.css")
+  meta(charset="utf-8")
+  style..
+    body
+    {
+        background-color: #000;
+        color: #fff;
+    }
+    ..
+ body
+  p.ciao
+  ul
+    li.ciao
+    li.test
+  h1.Ciao
+  <! asdsa 325 3 53
+  p..
+    sdsadas
+  ..
+  h1.12345
+  ,,prova testo normale
+  ,,
+  p(style="color: #f00").asdsad
+  ,,
+    senza p
+  ,,
+  p.{@ciao@}
