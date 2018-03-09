@@ -7,5 +7,6 @@
 
 return [
     "author" => "Stefano Valenzano",
-    "themeEngine" => "mixed" //galaxy, simple, mixed
+    "themeEngine" => "mixed", //galaxy, simple, mixed
+    "notFoundPage" => "error.php"
 ];

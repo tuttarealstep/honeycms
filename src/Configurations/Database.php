@@ -10,7 +10,7 @@ return [
         'host' => 'localhost',
         'charset' => 'utf8',
         'name' => 'honeycms',
-        'username' => 'root',
-        'password' => 'stefano1'
+        'username' => 'test',
+        'password' => ''
     ]
 ];

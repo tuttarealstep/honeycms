@@ -10,6 +10,7 @@ namespace HoneyCMS;
 use ErrorException;
 use Honey\Cache\SimpleCache;
 use Honey\Cryptography\Cryptography;
+use Honey\Http\Response;
 use Honey\Log\Logger;
 use Honey\Router\Router;
 use Honey\Sessions\SessionsManager;
@@ -68,6 +69,11 @@ final class Application implements ApplicationStandard
      * @var ThemesManager
      */
     private static $themesManager;
+
+    /**
+     * @var Response
+     */
+    private static $response;
 
     /**
      * @return ConfigurationsManager
@@ -147,6 +153,7 @@ final class Application implements ApplicationStandard
         $this->initLogger();
         $this->initErrorHandler();
         $this->initDebugMode();
+        $this->initResponse();
         $this->initSessions();
         $this->initCache();
         $this->initCryptography();
@@ -279,6 +286,19 @@ final class Application implements ApplicationStandard
         self::$themesManager->initThemeFunctions();
     }
 
+    private function initResponse()
+    {
+        self::$response = new Response();
+    }
+
+    /**
+     * @return Response
+     */
+    public static function getResponse(): Response
+    {
+        return self::$response;
+    }
+
     public function run()
     {
         $this->sendResponse();
@@ -304,22 +324,21 @@ final class Application implements ApplicationStandard
 
         switch ($routeInfo[0]) {
             case Router::NOT_FOUND:
-                //todo fix 404
-                header("location: /");
-                exit;
+                    self::$response->setStatus(404);
+                    self::$response->setContent(self::$themesManager->loadNotFoundPage());
                 break;
             case Router::METHOD_NOT_ALLOWED:
-                //todo fix method not allowed
-                $allowedMethods = $routeInfo[1];
+                    self::$response->setStatus(405);
+                    self::$response->setContent(self::$themesManager->loadMethodNotAllowedPage($routeInfo[2]));
                 break;
             case Router::FOUND:
-                $handler = $routeInfo[1];
-                $vars = $routeInfo[2];
+                    $handler = $routeInfo[1];
+                    $vars = $routeInfo[2];
 
-                echo self::$themesManager->loadPage($handler, $vars);
-                //todo load page
-                //print_r($routeInfo);
+                    self::$response->setContent(self::$themesManager->loadPage($handler, $vars));
                 break;
         }
+
+        self::$response->sendResponse(true);
     }
 }

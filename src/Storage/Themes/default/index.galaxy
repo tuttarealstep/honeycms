@@ -1,31 +1,19 @@
 doctype html
 html
  head
-  title.Test
-  link(rel="stylesheet" href="test.css")
+  title.Home Page
   meta(charset="utf-8")
+  link(href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet")
   style..
     body
     {
-        background-color: #000;
-        color: #fff;
+        font-family: 'Roboto', sans-serif;background-color: #212121;color: #fafafa;
+    }
+    .mainDiv
+    {
+        margin: 20%; border: 1px solid #fafafa; border-radius: 10px; padding: 2%;
     }
     ..
  body
-  p.ciao
-  ul
-    li.ciao
-    li.test
-  h1.Ciao
-  <! asdsa 325 3 53
-  p..
-    sdsadas
-  ..
-  h1.12345
-  ,,prova testo normale
-  ,,
-  p(style="color: #f00").asdsad
-  ,,
-    senza p
-  ,,
-  p.{@ciao@}
+    div(class="mainDiv")
+        h1.Prova

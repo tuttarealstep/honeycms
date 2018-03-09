@@ -64,10 +64,23 @@ class ThemesManager
         if(!isset($this->themeInfo['useCache']))
             $this->themeInfo['useCache'] = false;
 
+        if(!isset($this->themeInfo['notFoundPage']))
+            $this->themeInfo['notFoundPage'] = "";
+
+        if(!isset($this->themeInfo['methodNotAllowedPage']))
+            $this->themeInfo['methodNotAllowedPage'] = "";
+
         if(!isset($this->themeInfo['cachePath']))
             $this->themeInfo['cachePath'] = ROOT_PATH . "/Storage/Cache";
     }
 
+    /**
+     * todo use vars!!
+     * @param $handler
+     * @param $vars
+     * @param null $engine
+     * @return bool|mixed|null
+     */
     public function loadPage($handler, $vars, $engine = null)
     {
         if($engine == null)
@@ -98,8 +111,38 @@ class ThemesManager
                 }
                 break;
         }
+
+        return null;
     }
 
+    /**
+     * todo change return
+     * @return bool|mixed|null|string
+     */
+    public function loadNotFoundPage()
+    {
+        if($this->themeInfo['notFoundPage'] == "")
+        {
+            return "";
+        } else {
+            return $this->loadPage($this->themeInfo['notFoundPage'], null);
+        }
+    }
+
+    /**
+     * todo change return and fix vars
+     * @param $vars
+     * @return bool|mixed|null|string
+     */
+    public function loadMethodNotAllowedPage($vars)
+    {
+        if($this->themeInfo['methodNotAllowedPage'] == "")
+        {
+            return "";
+        } else {
+            return $this->loadPage($this->themeInfo['methodNotAllowedPage'], $vars);
+        }
+    }
     /**
      * @return mixed
      */
@@ -116,6 +159,10 @@ class ThemesManager
         return $this->themeInfo;
     }
 
+    /**
+     * @param $name
+     * @param $value
+     */
     public function addVariable($name, $value)
     {
         $this->variables[$name] = $value;
@@ -128,4 +175,6 @@ class ThemesManager
     {
         return $this->themeEngine;
     }
+
+
 }
